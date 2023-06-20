@@ -7,7 +7,7 @@ It's hosted by [Deno](https://deno.dev), using [Turso](https://turso.tech/) db s
 
 [![Made with Fresh](https://fresh.deno.dev/fresh-badge.svg)](https://fresh.deno.dev)
 
-[Demo](https://s.114114.xyz/)
+[Demo](https://uspb.deno.dev/)
 
 ## Usage
 
@@ -43,7 +43,7 @@ create table short_url(
 ```
 5. Set the env in Deno project in `projects -> Setting -> Environment Variables`. Here is example:
 ```
-SITE_URL='s.114114.xyz'
+SITE_URL='uspb.deno.dev'
 TURSO_URL="libsql://xxx.turso.io"
 TURSO_TOKEN="..."
 ```
