@@ -3,7 +3,7 @@ uspb = **Url Shorter + Paste Bin**.
 
 The visitor submits a text. For the content starts with `http`, It provider a redirect, else it will display a card with the input text.
 
-It's hosted by [Deno](https://deno.dev), using [Truso](https://turso.tech/) db service.
+It's hosted by [Deno](https://deno.dev), using [Turso](https://turso.tech/) db service.
 
 [![Made with Fresh](https://fresh.deno.dev/fresh-badge.svg)](https://fresh.deno.dev)
 
