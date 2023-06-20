@@ -1,7 +1,7 @@
 # USPB
 uspb = **Url Shorter + Paste Bin**.
 
-For the content starts with `http`, It provider a redirecte, else it will display a card.
+The visitor submits a text. For the content starts with `http`, It provider a redirect, else it will display a card with the input text.
 
 It's hosted by [Deno](https://deno.dev), using [Truso](https://turso.tech/) db service.
 
@@ -50,7 +50,7 @@ TURSO_TOKEN="..."
 
 ## TODO
 
--[] Multi lang support
--[] url access count
--[] login with github and save the input history
+- [ ] Multi lang support
+- [ ] url access count
+- [ ] login with github and save the input history
 
