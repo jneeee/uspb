@@ -1,0 +1,11 @@
+:root:not([data-theme=dark]), [data-theme=light] {
+    --primary: #039be5;
+    --primary-hover: #0288d1;
+}
+.center {
+    margin: auto;
+}
+button.right {
+    float: right;
+    width:10em
+}
