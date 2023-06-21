@@ -15,9 +15,10 @@ class Database {
 
   async insertEntry(sh_code: string, url_s: string) {
     try {
-      const sql = `insert into short_url(short_code, url) values('${sh_code}', '${url_s}')`;
-      console.log(sql);
-      await this.client.execute(sql);
+      await this.client.execute({
+        sql: "insert into short_url(short_code, url) values(?, ?)",
+        args: [ sh_code, url_s ]
+      });
     } catch (e) {
       console.error(e);
     }
@@ -25,9 +26,10 @@ class Database {
 
   async getEntry(sh_code: string) {
     try {
-      const sql = `select * from short_url where short_code = '${sh_code}'`;
-      console.log(sql);
-      const rs = await this.client.execute(sql);
+      const rs = await this.client.execute({
+        sql: "select * from short_url where short_code = ?",
+        args: [ sh_code ]
+    });
       return rs.rows[0];
     } catch (e) {
       console.error(e);

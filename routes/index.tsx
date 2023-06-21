@@ -32,7 +32,10 @@ export const handler: Handlers = {
 
     try {
       await db.batch([
-        `insert into short_url(short_code, url) values ('${short_code}', '${url}')`,
+        {
+          sql: "insert into short_url(short_code, url) values (?, ?)",
+          args: [ short_code, url ]
+        },
         `update short_url SET url = ${entry_count} where short_code = 'entry_count'`
         ]
       )
