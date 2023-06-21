@@ -1,9 +1,9 @@
 # USPB
 uspb = **Url Shorter + Paste Bin**.
 
-The visitor submits a text. For the content starts with `http`, It provider a redirect, else it will display a card with the input text.
+The visitor submits the text. For the text starts with `http`, It provider a redirect, otherwise it will display a card with the input text.
 
-It's hosted by [Deno](https://deno.dev), using [Turso](https://turso.tech/) db service.
+It's hosted by [Deno](https://deno.dev), using [Turso](https://turso.tech/) database service.
 
 [![Made with Fresh](https://fresh.deno.dev/fresh-badge.svg)](https://fresh.deno.dev)
 
@@ -14,7 +14,7 @@ It's hosted by [Deno](https://deno.dev), using [Turso](https://turso.tech/) db s
 1. Fork the repo
 2. Go to [Deno](https://deno.dev), integrate with your github account.
 3. Create a project use the repo you just forked.
-3. Go to [Truso](https://turso.tech/), It's a edge database service. Create your own db and get the token.
+4. Go to [Turso](https://turso.tech/), It's a edge database service. Create your own database and get the token.
 ```
 # install the turso CLI
 curl -sSfL https://get.tur.so/install.sh | bash
@@ -28,11 +28,11 @@ turso db list
 # Get the token
 turso db tokens create mydata
 ```
-4. Create the table with the schema:
+5. Create the table with the schema:
 ```
-# Create the table;
+# Into SQL CLI;
 turso db shell mydata
-# in the db shell
+# in the SQL CLI
 create table short_url(
   short_code varchar(10) PRIMARY KEY,
   url text not null,
@@ -41,7 +41,7 @@ create table short_url(
 );
 # Press Ctrl+D for quit
 ```
-5. Set the env in Deno project in `projects -> Setting -> Environment Variables`. Here is example:
+6. Set the env in Deno project in `projects -> Setting -> Environment Variables`. Here is example:
 ```
 SITE_URL='uspb.deno.dev'
 TURSO_URL="libsql://xxx.turso.io"
