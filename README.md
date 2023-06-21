@@ -1,4 +1,4 @@
-# USPB
+# USPB [中文版](/README_ZH.md)
 uspb = **Url Shorter + Paste Bin**.
 
 The visitor submits the text. For the text starts with `http`, It provider a redirect, otherwise it will display a card with the input text.
