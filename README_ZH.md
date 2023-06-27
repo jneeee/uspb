@@ -46,6 +46,7 @@ create table short_url(
 SITE_URL='uspb.deno.dev'
 TURSO_URL="libsql://xxx.turso.io"
 TURSO_TOKEN="..."
+PASSWD="xxx"
 ```
 
 ## TODO
