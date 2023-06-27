@@ -21,6 +21,11 @@ if (temprow) {
 export const handler: Handlers = {
   async POST(req, ctx) {
     const form = await req.formData();
+
+    if (form.get("pswd")?.toString() != Deno.env.get('PASSWD')) {
+      return ctx.render({'msg': 'Wrong password!', 'entry_count': entry_count});
+    }
+
     const url = form.get("url")?.toString();
 
     if (!url) {
@@ -63,6 +68,7 @@ export default function Home(props: PageProps) {
       <form method="post" class="center" style="width:70%">
         <fieldset>
           <textarea name="url" type="text" placeholder="url or text"/>
+          <input name="pswd" type="password" placeholder="password" class="left"></input>
           <button type="submit" class="right">Submit</button>
         </fieldset>
       </form>

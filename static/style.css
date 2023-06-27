@@ -9,3 +9,7 @@ button.right {
     float: right;
     width:10em
 }
+input.left {
+    float: left;
+    width:10em
+}
