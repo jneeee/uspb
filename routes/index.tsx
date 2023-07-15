@@ -75,11 +75,11 @@ export default function Home(props: PageProps) {
       <div class="grid">
         <article>
           <h5><IconLink class="w-6 h-6" /> Url shorter</h5>
-          <p><b>Content start with http</b> get a 302 redirecting. url belike https://{Deno.env.get('SITE_URL')!}/s/abcde</p>
+          <p><b>Content start with http</b> get a 302 redirecting. <a href={`https://${Deno.env.get('SITE_URL')!}/s/1xSzh`}>Example</a> will jump to github.</p>
         </article>
         <article>
           <h5><IconEdit class="w-6 h-6" /> Pastebin</h5>
-          <p>Text content will be saved and shown as article card</p>
+          <p>Text content will be saved and shown as article card. <a href={`https://${Deno.env.get('SITE_URL')!}/s/5pUOC`}>Example</a> </p>
         </article>
         <article>
           <h5><IconHomeStats class="w-6 h-6" /> System status</h5>
