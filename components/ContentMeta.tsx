@@ -22,7 +22,7 @@ export default function ContentMeta() {
       <meta property="og:type" content={TYPE} />
       <meta property="og:locale" content={LOCALE} />
       <meta name="keywords" content={KEYWORDS.join(", ")} />
-      <link rel="stylesheet" href="https://cdn.staticfile.org/picocss/1.5.10/pico.min.css" crossorigin="anonymous" />
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2.0.6/css/pico.min.css" crossorigin="anonymous" />
       <link rel="stylesheet" href="/style.css" />
     </Head>
   );
