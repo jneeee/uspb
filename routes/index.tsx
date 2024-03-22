@@ -12,17 +12,19 @@ import IconEdit from "icons/edit.tsx";
 import IconLink from "icons/link.tsx";
 
 
-const temprow = await db.getEntry('entry_count');
 let entry_count = 1;
-if (temprow) {
-  entry_count = parseInt(temprow.url);
+{
+  const temprow = await db.getEntry('entry_count');
+  if (temprow) {
+    entry_count = parseInt(temprow.url);
+  }
 }
 
 export const handler: Handlers = {
   async POST(req, ctx) {
     const form = await req.formData();
 
-    if (form.get("pswd")?.toString() != Deno.env.get('PASSWD')) {
+    if (Deno.env.get('PASSWD') && form.get("pswd")?.toString() != Deno.env.get('PASSWD')) {
       return ctx.render({'msg': 'Wrong password!', 'entry_count': entry_count});
     }
 
@@ -54,7 +56,7 @@ export const handler: Handlers = {
     );
   },
   GET(_req, ctx) {
-    return ctx.render({'entry_count': parseInt(entry_count)});
+    return ctx.render({'entry_count': entry_count});
   }
 };
 
@@ -68,7 +70,7 @@ export default function Home(props: PageProps) {
       <form method="post" class="center" style="width:70%">
         <fieldset>
           <textarea name="url" type="text" placeholder="url or text"/>
-          <input name="pswd" type="password" placeholder="password" class="left"></input>
+          {Deno.env.get('PASSWD') && <input name="pswd" type="password" placeholder="password" class="left"></input>}
           <button type="submit" class="right">Submit</button>
         </fieldset>
       </form>
