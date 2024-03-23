@@ -2,9 +2,9 @@ import { Handlers, PageProps } from "$fresh/server.ts";
 import Alert from "@/components/Alert.tsx";
 import ContentMeta from "@/components/ContentMeta.tsx";
 
-import { short_urls, stats } from "@/utils/database.ts";
 import { generateId } from "@/utils/random.ts";
 import Footer from "@/components/Footer.tsx";
+import ShortUrl from "@/utils/database.ts";
 
 // https://tabler-icons-tsx.deno.dev/
 import IconHomeStats from "icons/home-stats.tsx";
@@ -12,7 +12,9 @@ import IconEdit from "icons/edit.tsx";
 import IconLink from "icons/link.tsx";
 
 
-let entry_count = parseInt(await stats.get('entry_count')) || 0;
+const kv = await Deno.openKv();
+
+let entry_count = await kv.get(['stats','entry_count']).value || 0;
 
 export const handler: Handlers = {
   async POST(req, ctx) {
@@ -27,23 +29,23 @@ export const handler: Handlers = {
     const url = form.get("url")?.toString();
 
     if (!url) {
-      return ctx.render({'msg': 'Pelease input content!', 'entry_count': entry_count});
+      return ctx.render({'msg': 'Please input content!', 'entry_count': entry_count});
     }
 
     const short_code = generateId();
     entry_count++;
 
-    const entry = {
-      "key": short_code,
-      "content": url,
-      "stats": {"access": 0},
-      "user": null,
+    const entry: ShortUrl = {
+      key: short_code,
+      content: url,
+      stats: {access: 0},
+      user: null,
+      type: url.startsWith("http") ? "url" : "text",
     };
-    entry["type"] = url.startsWith("http") ? "url" : "text";
 
-    await short_urls.put(short_code, JSON.stringify(entry));
+    await kv.set(['url', short_code], entry);
     if (entry_count % 10 == 0) {
-      await stats.put('entry_count', entry_count.toString());
+      await kv.set(['stats','entry_count'], entry_count.toString());
     }
 
     return ctx.render(

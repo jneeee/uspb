@@ -1,28 +1,29 @@
 import { Handlers, PageProps } from "$fresh/server.ts";
-import short_urls from "@/utils/database.ts";
 import ContentMeta from "@/components/ContentMeta.tsx";
 import Footer from "@/components/Footer.tsx";
+import ShortUrl from "@/utils/database.ts";
 
+
+const kv = await Deno.openKv();
 
 export const handler: Handlers = {
     async GET(_req, ctx) {
       const short_code = ctx.params.short_code;
 
       try {
-        const entry = await short_urls.get(short_code);
-        const row = JSON.parse(entry);
-        console.debug(`Get short_code: (${short_code}), row: ${row}`)
-        if (!row) {
+        const entry = (await kv.get<ShortUrl>(['url', short_code])).value;
+        console.debug(`Get short_code: (${short_code}), entry: ${entry}`)
+        if (!entry) {
             return ctx.renderNotFound();
         }
 
-        row.stats.access += 1;
-        await short_urls.put(short_code, JSON.stringify(row));
+        entry.stats.access += 1;
+        await kv.set(['url', short_code], entry);
 
-        if (row.type == "url") {
-            return Response.redirect(row.content, 302);
+        if (entry.type == "url") {
+            return Response.redirect(entry.content, 302);
         } else {
-          return ctx.render(row.content);
+          return ctx.render(entry.content);
         }
       } catch (err) {
         console.error(err);
@@ -32,14 +33,13 @@ export const handler: Handlers = {
   };
 
 export default function show_text(props: PageProps) {
-
-    return (
-        <>
-        <ContentMeta />
-        <main class="container">
-          <article>{props.data}</article>
-          <Footer />
-        </main>
-        </>
-    )
+  return (
+    <>
+    <ContentMeta />
+    <main class="container">
+      <article>{props.data}</article>
+      <Footer />
+    </main>
+    </>
+  )
 }

@@ -1,7 +1,7 @@
-import { DenoKV } from "https://deno.land/x/denokv/mod.ts";
-
-
-const short_urls = new DenoKV("short_urls");
-const stats = new DenoKV("stats");
-
-export { short_urls, stats };
+export interface ShortUrl {
+  key: string;
+  content: string;
+  user: string | null;
+  stats: Record<string, unknown>;
+  type?: 'url' | 'text';
+}
