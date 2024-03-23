@@ -5,3 +5,6 @@
 .env.production.local
 .env.local
 .vscode
+
+# Fresh build directory
+_fresh/
