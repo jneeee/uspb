@@ -1,4 +1,4 @@
-export const LENGTH = 5;
+export const LENGTH = 8;
 
 export const CHARS =
   "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"

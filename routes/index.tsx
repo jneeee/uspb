@@ -2,7 +2,7 @@ import { Handlers, PageProps } from "$fresh/server.ts";
 import Alert from "@/components/Alert.tsx";
 import ContentMeta from "@/components/ContentMeta.tsx";
 
-import db from "@/utils/database.ts";
+import { short_urls, stats } from "@/utils/database.ts";
 import { generateId } from "@/utils/random.ts";
 import Footer from "@/components/Footer.tsx";
 
@@ -12,19 +12,15 @@ import IconEdit from "icons/edit.tsx";
 import IconLink from "icons/link.tsx";
 
 
-let entry_count = 1;
-{
-  const temprow = await db.getEntry('entry_count');
-  if (temprow) {
-    entry_count = parseInt(temprow.url);
-  }
-}
+let entry_count = parseInt(await stats.get('entry_count')) || 0;
 
 export const handler: Handlers = {
   async POST(req, ctx) {
+
+    const env = Deno.env;
     const form = await req.formData();
 
-    if (Deno.env.get('PASSWD') && form.get("pswd")?.toString() != Deno.env.get('PASSWD')) {
+    if (env.get('PASSWD') && form.get("pswd")?.toString() != env.get('PASSWD')) {
       return ctx.render({'msg': 'Wrong password!', 'entry_count': entry_count});
     }
 
@@ -37,21 +33,21 @@ export const handler: Handlers = {
     const short_code = generateId();
     entry_count++;
 
-    try {
-      await db.batch([
-        {
-          sql: "insert into short_url(short_code, url) values (?, ?)",
-          args: [ short_code, url ]
-        },
-        `update short_url SET url = ${entry_count} where short_code = 'entry_count'`
-        ]
-      )
-    } catch (err) {
-      console.error(err);
-      return new Response("server error", { status: 500 });
+    const entry = {
+      "key": short_code,
+      "content": url,
+      "stats": {"access": 0},
+      "user": null,
+    };
+    entry["type"] = url.startsWith("http") ? "url" : "text";
+
+    await short_urls.put(short_code, JSON.stringify(entry));
+    if (entry_count % 10 == 0) {
+      await stats.put('entry_count', entry_count.toString());
     }
+
     return ctx.render(
-      {'msg': `The short url, only show once: https://${Deno.env.get('SITE_URL')!}/s/${short_code}`,
+      {'msg': `🎉(Only show once): https://${env.get('SITE_URL')!}/s/${short_code}`,
        'entry_count': entry_count}
     );
   },
@@ -85,7 +81,7 @@ export default function Home(props: PageProps) {
         </article>
         <article>
           <h5><IconHomeStats class="w-6 h-6" /> System status</h5>
-          <p>{props.data.entry_count} links have been created. 🎉</p>
+          <p>{entry_count} links have been created. 🎉</p>
         </article>
       </div>
       <Footer />
