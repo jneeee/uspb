@@ -2,15 +2,14 @@ import { Handlers, PageProps } from "$fresh/server.ts";
 import Alert from "@/components/Alert.tsx";
 import ContentMeta from "@/components/ContentMeta.tsx";
 
-import { generateId } from "@/utils/random.ts";
-import Footer from "@/components/Footer.tsx";
-import ShortUrl from "@/utils/database.ts";
-
 // https://tabler-icons-tsx.deno.dev/
 import IconHomeStats from "icons/home-stats.tsx";
 import IconEdit from "icons/edit.tsx";
 import IconLink from "icons/link.tsx";
 
+import { generateId } from "@/utils/random.ts";
+import Footer from "@/components/Footer.tsx";
+import ShortUrl from "@/utils/database.ts";
 
 const kv = await Deno.openKv();
 

@@ -8,3 +8,5 @@
 
 # Fresh build directory
 _fresh/
+
+routes/auth

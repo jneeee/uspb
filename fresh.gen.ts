@@ -5,6 +5,7 @@
 import * as $_404 from "./routes/_404.tsx";
 import * as $_app from "./routes/_app.tsx";
 import * as $index from "./routes/index.tsx";
+import * as $list from "./routes/list.tsx";
 import * as $s_short_code_ from "./routes/s/[short_code].tsx";
 
 import { type Manifest } from "$fresh/server.ts";
@@ -14,6 +15,7 @@ const manifest = {
     "./routes/_404.tsx": $_404,
     "./routes/_app.tsx": $_app,
     "./routes/index.tsx": $index,
+    "./routes/list.tsx": $list,
     "./routes/s/[short_code].tsx": $s_short_code_,
   },
   islands: {},

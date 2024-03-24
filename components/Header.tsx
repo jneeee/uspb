@@ -4,9 +4,10 @@ export default function HeaderNav() {
         <nav class="container">
             <ul>
                 <li><a href="/"><kbd>{Deno.env.get("SITE_URL")}</kbd></a></li>
+                <li><a href="/list">List</a></li>
             </ul>
             <ul>
-                <li>Home</li>
+                <li>Login</li>
             </ul>
         </nav>
     );

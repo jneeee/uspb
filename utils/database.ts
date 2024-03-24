@@ -1,7 +1,10 @@
-export interface ShortUrl {
+export type ShortUrl = {
   key: string;
   content: string;
+  stats: {
+    access: number;
+    visibility: 'public' | 'private';
+  };
   user: string | null;
-  stats: Record<string, unknown>;
-  type?: 'url' | 'text';
-}
+  type: 'url' | 'text';
+};
