@@ -1,15 +1,31 @@
 # USPB
-uspb = **Url Shorter + Paste Bin**. 是个短连接 + 文本存储的服务
+uspb = **Url Shorter + Paste Bin**.
 
-用户提交一个文本，会获得一个短链接。如果文本内容是`http`开头，访问这个短链接会提供跳转。否则显示文本内容。
+访客提交文本。对于以 `http` 开头的文本，它提供重定向；否则，它将显示一个包含输入文本的卡片。
 
-部署在 [Deno](https://deno.dev), 使用 [Turso](https://turso.tech/) 数据库服务。
+它由 [Deno](https://deno.dev) 托管，使用 [Deno kv](https://deno.com/kv) 或 [Turso](https://turso.tech/) 数据库服务。
 
 [![Made with Fresh](https://fresh.deno.dev/fresh-badge.svg)](https://fresh.deno.dev)
 
-[演示](https://uspb.deno.dev/)
+[演示](https://uspb.deno.dev/)（这只是一个演示，不提供数据安全保证。）
 
-## 用法
+## 1 使用方法
+该项目支持 fork 后独立部署。有两种数据库选项：denokv（推荐）和 turso database。
+
+### 1.1 使用 DenoKV 作为数据库
+1. Fork 该仓库
+2. 前往 [Deno](https://deno.dev)，并与您的 github 账号集成。
+3. 使用您刚刚 fork 的仓库创建一个项目。
+4. 在您的项目中设置 ENV
+```
+SITE_URL='uspb.deno.dev'
+```
+
+`PASSWD` 是一个可选的环境变量：如果不存在，将不会在之后创建URL时进行验证。
+
+
+### 1.2 使用 Turso 作为数据库
+[Turso](https://turso.tech/) 是一个边缘数据库服务。
 
 1. Fork 本仓库
 2. 用你的 github 账户登录 [Deno](https://deno.dev)
@@ -48,10 +64,3 @@ TURSO_URL="libsql://xxx.turso.io"
 TURSO_TOKEN="..."
 PASSWD="xxx"
 ```
-
-## TODO
-
-- [ ] 多语言支持
-- [ ] url 访问统计
-- [ ] 可用 github 登录并查看创建历史
-
