@@ -41,31 +41,36 @@ export const handler: Handlers = {
 };
 
 export default function ListPage(props: PageProps<{ entries: ShortUrl[]; nextPage: number; nextStartKey: string | null }>) {
-  const { entries, nextPage, nextStartKey } = props.data;
-
-  return (
-    <>
-      <ContentMeta /><main>
-      <h1>Public Entries</h1>
-      <ul>
-        {entries.map((entry) => (
-          <li key={entry.key}>
-            {entry.type === 'url' ? (
-              <a href={entry.content} target="_blank" rel="noopener noreferrer">
-                {entry.content}
-              </a>
-            ) : (
-              <p>{entry.content}</p>
-            )}
-            <i>Access Count: {entry.stats.access}</i>
-          </li>
-        ))}
-      </ul>
-      {nextStartKey && (
-        <a href={`?page=${nextPage}&start=${nextStartKey}`}>Next Page</a>
-      )}
-      <Footer />
-      </main>
-    </>
-  );
-}
+    const { entries, nextPage, nextStartKey } = props.data;
+  
+    return (
+      <>
+        <ContentMeta />
+        <main class="center" style="width:70%">
+          <h1>Public Entries</h1>
+          <table class="striped">
+            <thead>
+              <tr>
+                <th>Content</th>
+                <th>Date</th>
+                <th>Access Count</th>
+              </tr>
+            </thead>
+            <tbody>
+              {entries.map((entry) => (
+                <tr key={entry.key}>
+                  <td>{entry.content.length > 20 ? `${entry.content.substring(0, 20)}...` : entry.content}</td>
+                  <td><a href={`/s/${entry.key}`}>{new Date(entry.create_time).toLocaleDateString()}</a></td>
+                  <td>{entry.stats.access}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          {nextStartKey && (
+            <a href={`?page=${nextPage}&start=${nextStartKey}`}>Next Page</a>
+          )}
+          <Footer />
+        </main>
+      </>
+    );
+  }

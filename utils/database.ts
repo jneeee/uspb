@@ -7,4 +7,5 @@ export type ShortUrl = {
   };
   user: string | null;
   type: 'url' | 'text';
+  create_time: string;
 };

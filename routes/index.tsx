@@ -40,6 +40,7 @@ export const handler: Handlers = {
       stats: {access: 0, visibility: form.get("public") ? 'public' : 'private'},
       user: null,
       type: url.startsWith("http") ? "url" : "text",
+      create_time: new Date().toISOString(),
     };
 
     await kv.set(['url', short_code], entry);
