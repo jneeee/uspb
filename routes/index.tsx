@@ -13,7 +13,7 @@ import ShortUrl from "@/utils/database.ts";
 
 const kv = await Deno.openKv();
 
-let entry_count = await kv.get(['stats','entry_count']).value || 0;
+let entry_count = (await kv.get(['stats','entry_count'])).value || 0;
 let creation_token = 10;
 
 Deno.cron("Creation token", "0 * * * *", () => {
