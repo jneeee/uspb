@@ -37,7 +37,7 @@ export default function show_text(props: PageProps) {
   return (
     <>
     <ContentMeta />
-    <main class="container" style="width:70%">
+    <main class="container" style="width:80%">
       <article>{entry.content}
       <footer>access count:{entry.stats.access}. visibility: {entry.stats.visibility}</footer>
       </article>
