@@ -1,5 +1,8 @@
 import { Handlers, PageProps } from "$fresh/server.ts";
+
 import { ShortUrl } from "@/utils/database.ts";
+import ContentMeta from "@/components/ContentMeta.tsx";
+import Footer from "@/components/Footer.tsx";
 
 const kv = await Deno.openKv();
 const ENTRIES_PER_PAGE = 20;
@@ -11,17 +14,20 @@ export const handler: Handlers = {
     const startKey = url.searchParams.get("start");
 
     // Calculate the starting point for listing keys
-    const start = startKey ? ["url", startKey] : ["url"];
+    let iter: ShortUrl[] = [];
+    if (startKey) {
+        iter = kv.list<ShortUrl>({ prefix: ["url"], start: ["url", startKey]}, {limit: ENTRIES_PER_PAGE + 1 })
+    } else {
+        iter = kv.list<ShortUrl>({ prefix: ["url"]}, {limit: ENTRIES_PER_PAGE + 1 })
+    }
 
-    // List keys with pagination
-    const iter = kv.list<ShortUrl>({ prefix: ["url"], start, limit: ENTRIES_PER_PAGE + 1 });
     const entries: ShortUrl[] = [];
     let nextStartKey = null;
 
     for await (const entry of iter) {
       if (entries.length < ENTRIES_PER_PAGE) {
-        if (entry.stats.visibility === 'public') {
-          entries.push(entry);
+        if (entry.value.stats.visibility === 'public') {
+          entries.push(entry.value);
         }
       } else {
         // Keep the key of the next entry for pagination
@@ -39,6 +45,7 @@ export default function ListPage(props: PageProps<{ entries: ShortUrl[]; nextPag
 
   return (
     <>
+      <ContentMeta /><main>
       <h1>Public Entries</h1>
       <ul>
         {entries.map((entry) => (
@@ -50,13 +57,15 @@ export default function ListPage(props: PageProps<{ entries: ShortUrl[]; nextPag
             ) : (
               <p>{entry.content}</p>
             )}
-            <p>Access Count: {entry.stats.access}</p>
+            <i>Access Count: {entry.stats.access}</i>
           </li>
         ))}
       </ul>
       {nextStartKey && (
         <a href={`?page=${nextPage}&start=${nextStartKey}`}>Next Page</a>
       )}
+      <Footer />
+      </main>
     </>
   );
 }

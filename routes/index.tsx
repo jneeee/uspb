@@ -37,7 +37,7 @@ export const handler: Handlers = {
     const entry: ShortUrl = {
       key: short_code,
       content: url,
-      stats: {access: 0},
+      stats: {access: 0, visibility: form.get("public") ? 'public' : 'private'},
       user: null,
       type: url.startsWith("http") ? "url" : "text",
     };
@@ -68,6 +68,7 @@ export default function Home(props: PageProps) {
         <fieldset>
           <textarea name="url" type="text" placeholder="url or text"/>
           {Deno.env.get('PASSWD') && <input name="pswd" type="password" placeholder="password" class="left"></input>}
+          <label><input type="checkbox" name="public" checked />Public(show in list)</label>
           <button type="submit" class="right">Submit</button>
         </fieldset>
       </form>

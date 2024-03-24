@@ -23,7 +23,7 @@ export const handler: Handlers = {
         if (entry.type == "url") {
             return Response.redirect(entry.content, 302);
         } else {
-          return ctx.render(entry.content);
+          return ctx.render(entry);
         }
       } catch (err) {
         console.error(err);
@@ -33,11 +33,14 @@ export const handler: Handlers = {
   };
 
 export default function show_text(props: PageProps) {
+  const entry: ShortUrl = props.data;
   return (
     <>
     <ContentMeta />
-    <main class="container">
-      <article>{props.data}</article>
+    <main class="container" style="width:70%">
+      <article>{entry.content}
+      <footer>access count:{entry.stats.access}. visibility: {entry.stats.visibility}</footer>
+      </article>
       <Footer />
     </main>
     </>
