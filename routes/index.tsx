@@ -25,20 +25,20 @@ Deno.cron("Creation token", "0 * * * *", () => {
 export const handler: Handlers = {
   async POST(req, ctx) {
     if (creation_token <= 0) {
-      return ctx.render({ 'msg': '429 too many requests', 'entry_count': entry_count });
+      return ctx.render({ 'msg': '429 too many requests'});
     }
 
     const env = Deno.env;
     const form = await req.formData();
 
     if (env.get('PASSWD') && form.get("pswd")?.toString() != env.get('PASSWD')) {
-      return ctx.render({'msg': 'Wrong password!', 'entry_count': entry_count});
+      return ctx.render({'msg': 'Wrong password!'});
     }
 
     const url = form.get("url")?.toString();
 
     if (!url) {
-      return ctx.render({'msg': 'Please input content!', 'entry_count': entry_count});
+      return ctx.render({'msg': 'Please input content!'});
     }
 
     const short_code = generateId();
@@ -58,12 +58,11 @@ export const handler: Handlers = {
     creation_token -= 1;
 
     return ctx.render(
-      {'msg': `🎉(Only show once): https://${env.get('SITE_URL')!}/s/${short_code}`,
-       'entry_count': entry_count}
+      {'msg': `🎉(Only show once): https://${env.get('SITE_URL')!}/s/${short_code}`}
     );
   },
   GET(_req, ctx) {
-    return ctx.render({'entry_count': entry_count});
+    return ctx.render();
   }
 };
 
@@ -73,7 +72,7 @@ export default function Home(props: PageProps) {
     <>
     <ContentMeta />
     <main class="container">
-      <Alert message={props.data.msg} />
+      {props.data && <Alert message={props.data.msg} />}
       <form method="post" class="center" style="width:70%">
         <fieldset>
           <textarea name="url" type="text" placeholder="url or text"/>

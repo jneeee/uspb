@@ -1,4 +1,9 @@
 import { Handlers, PageProps } from "$fresh/server.ts";
+
+import IconClick from "icons/click.tsx"
+import IconCalendarTime from "icons/calendar-time.tsx"
+import IconWorldShare from "icons/world-share.tsx"
+
 import ContentMeta from "@/components/ContentMeta.tsx";
 import Footer from "@/components/Footer.tsx";
 import ShortUrl from "@/utils/database.ts";
@@ -39,7 +44,11 @@ export default function show_text(props: PageProps) {
     <ContentMeta />
     <main class="container" style="width:80%">
       <article>{entry.content}
-      <footer>access count:{entry.stats.access}. visibility: {entry.stats.visibility}</footer>
+      <footer class="grid">
+        <div><IconCalendarTime class="w-6 h-6" />{entry.create_time}</div>
+        <div><IconClick class="w-6 h-6" />Access: {entry.stats.access}.</div>
+        <div><IconWorldShare class="w-6 h-6" />{entry.stats.visibility}</div>
+      </footer>
       </article>
       <Footer />
     </main>
