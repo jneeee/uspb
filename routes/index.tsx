@@ -14,9 +14,19 @@ import ShortUrl from "@/utils/database.ts";
 const kv = await Deno.openKv();
 
 let entry_count = await kv.get(['stats','entry_count']).value || 0;
+let creation_token = 10;
+
+Deno.cron("Creation token", "0 * * * *", () => {
+  creation_token = 10
+  console.log("reset creation_token = 10");
+});
+
 
 export const handler: Handlers = {
   async POST(req, ctx) {
+    if (creation_token <= 0) {
+      return ctx.render({ 'msg': '429 too many requests', 'entry_count': entry_count });
+    }
 
     const env = Deno.env;
     const form = await req.formData();
@@ -44,9 +54,8 @@ export const handler: Handlers = {
     };
 
     await kv.set(['url', short_code], entry);
-    if (entry_count % 10 == 0) {
-      await kv.set(['stats','entry_count'], entry_count.toString());
-    }
+    await kv.set(['stats','entry_count'], entry_count);
+    creation_token -= 1;
 
     return ctx.render(
       {'msg': `🎉(Only show once): https://${env.get('SITE_URL')!}/s/${short_code}`,
@@ -85,6 +94,7 @@ export default function Home(props: PageProps) {
         <article>
           <h5><IconHomeStats class="w-6 h-6" /> System status</h5>
           <p>{entry_count} links have been created. 🎉</p>
+          <p>{creation_token} creation token remains in the last hour.</p>
         </article>
       </div>
       <Footer />
