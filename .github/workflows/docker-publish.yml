@@ -32,5 +32,5 @@ jobs:
         context: .
         file: ./Dockerfile
         push: true
-        tags: ghcr.io/${{ github.repository }}/uspb:latest
+        tags: ghcr.io/${{ github.repository }}:latest
         build-args: GIT_REVISION=$(git rev-parse HEAD)
