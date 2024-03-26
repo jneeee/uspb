@@ -6,10 +6,8 @@ import IconWorldShare from "icons/world-share.tsx"
 
 import ContentMeta from "@/components/ContentMeta.tsx";
 import Footer from "@/components/Footer.tsx";
-import ShortUrl from "@/utils/database.ts";
+import {kv, ShortUrl} from "@/utils/database.ts";
 
-
-const kv = await Deno.openKv();
 
 export const handler: Handlers = {
     async GET(_req, ctx) {

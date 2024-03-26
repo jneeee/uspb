@@ -9,9 +9,8 @@ import IconLink from "icons/link.tsx";
 
 import { generateId } from "@/utils/random.ts";
 import Footer from "@/components/Footer.tsx";
-import ShortUrl from "@/utils/database.ts";
+import {kv, ShortUrl} from "@/utils/database.ts";
 
-const kv = await Deno.openKv();
 
 let entry_count = (await kv.get(['stats','entry_count'])).value || 0;
 let creation_token = 10;
