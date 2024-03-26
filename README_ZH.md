@@ -64,3 +64,17 @@ TURSO_URL="libsql://xxx.turso.io"
 TURSO_TOKEN="..."
 PASSWD="xxx"
 ```
+
+### 1.3 自托管
+使用容器运行你的实例：
+
+```shell
+docker run -d --name uspb -v ~/vol/uspb:/app/data -p 3000:3000 -e SITE_URL=xxx.com ghcr.io/jneeee/uspb:latest
+```
+请考虑根据需要替换以下选项：
+
+| 选项 | 解释 |
+| ------ | ----------- |
+| -v ./xx:/app/data | 在容器外保存sqlite3文件 |
+| -p xx:3000 | 外部监听端口 |
+| -e SITE_URL=<site addr> | 你的站点地址 |

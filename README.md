@@ -66,3 +66,17 @@ TURSO_URL="libsql://xxx.turso.io"
 TURSO_TOKEN="..."
 PASSWD="Changeme" (Optional)
 ```
+
+### 1.3 self-hosted
+Run your instance with containers:
+
+```shell
+docker run -d --name uspb -v ~/vol/uspb:/app/data -p 3000:3000 -e SITE_URL=xxx.com ghcr.io/jneeee/uspb:latest
+```
+Consider replacing the following options:
+
+| Option | Explanation |
+| ------ | ----------- |
+| -v ./xx:/app/data | Persist data in sqlite3 file Outside the container |
+| -p xx:3000 | the port to expose |
+| -e SITE_URL=<site addr> | your site address |
