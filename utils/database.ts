@@ -12,7 +12,7 @@ export type ShortUrl = {
 
 
 export const kv = (
-  Deno.env.get("runtime") === "DOCKER"
-    ? await Deno.openKv("/app/data/uspb.sqlite3")
-    : await Deno.openKv()
+  Deno.env.has("DENO_REGION")
+    ? await Deno.openKv()
+    : await Deno.openKv("/app/data/uspb.sqlite3")
 );

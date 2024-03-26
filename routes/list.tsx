@@ -1,14 +1,14 @@
 import { Handlers, PageProps } from "$fresh/server.ts";
 
-import { ShortUrl } from "@/utils/database.ts";
+import { kv, ShortUrl } from "@/utils/database.ts";
 import ContentMeta from "@/components/ContentMeta.tsx";
 import Footer from "@/components/Footer.tsx";
 
-const kv = await Deno.openKv();
 const ENTRIES_PER_PAGE = 20;
 
 export const handler: Handlers = {
   async GET(req, ctx) {
+
     const url = new URL(req.url);
     const page = parseInt(url.searchParams.get("page") || "1", 10);
     const startKey = url.searchParams.get("start");
