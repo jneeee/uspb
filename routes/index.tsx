@@ -58,7 +58,7 @@ export const handler: Handlers = {
     creation_token -= 1;
 
     return ctx.render(
-      {'msg': `🎉(Only show once): https://${env.get('SITE_URL')!}/s/${short_code}`}
+      {'msg': `🎉Save the link: https://${env.get('SITE_URL')!}/s/${short_code}`}
     );
   },
   GET(_req, ctx) {
