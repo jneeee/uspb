@@ -23,15 +23,16 @@ export const handler: Handlers = {
 
     const entries: ShortUrl[] = [];
     let nextStartKey = null;
+    let count = 0
 
     for await (const entry of iter) {
-      if (entries.length < ENTRIES_PER_PAGE) {
+      count++
+      if (count < ENTRIES_PER_PAGE) {
         if (entry.value.stats.visibility === 'public') {
           entries.push(entry.value);
         }
       } else {
-        // Keep the key of the next entry for pagination
-        nextStartKey = entry.key.split(",").pop();
+        nextStartKey = entry.key;
         break;
       }
     }
