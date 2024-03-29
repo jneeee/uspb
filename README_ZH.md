@@ -69,7 +69,7 @@ PASSWD="xxx"
 使用容器运行你的实例：
 
 ```shell
-docker run -d --name uspb -v ~/vol/uspb:/app/data -p 3000:3000 -e SITE_URL=xxx.com ghcr.io/jneeee/uspb:latest
+docker run -d --name uspb -v ~/vol/uspb:/app/data -p 3000:3000 -e SITE_URL=xxx.com ghcr.io/jneeee/uspb:v0.2
 ```
 请考虑根据需要替换以下选项：
 

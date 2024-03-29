@@ -71,7 +71,7 @@ PASSWD="Changeme" (Optional)
 Run your instance with containers:
 
 ```shell
-docker run -d --name uspb -v ~/vol/uspb:/app/data -p 3000:3000 -e SITE_URL=xxx.com ghcr.io/jneeee/uspb:latest
+docker run -d --name uspb -v ~/vol/uspb:/app/data -p 3000:3000 -e SITE_URL=xxx.com ghcr.io/jneeee/uspb:v0.2
 ```
 Consider replacing the following options:
 
