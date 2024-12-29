@@ -67,7 +67,7 @@ export const handler: Handlers = {
       stats: {access: 0, visibility: form.get("public") ? 'public' : 'private'},
       user: null,
       type: url.startsWith("http") ? "url" : "text",
-      create_time: new Date().toISOString(),
+      create_time: Date.now(),
     };
 
     // 如果是url的话，还要给url本身加上一个索引，方便下次插入时查找是否存在重复
