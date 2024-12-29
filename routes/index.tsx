@@ -20,6 +20,11 @@ Deno.cron("Creation token", "0 * * * *", () => {
   console.log("reset creation_token = 10");
 });
 
+// url验证函数，用来判断是文本还是url
+function isValidUrl(url: string): boolean {
+  const regex = /^(http|https):\/\/[^ "]+$/;
+  return regex.test(url);
+}
 
 export const handler: Handlers = {
   async POST(req, ctx) {
@@ -40,8 +45,21 @@ export const handler: Handlers = {
       return ctx.render({'msg': 'Please input content!'});
     }
 
+    // 如果不是url，就不启用去重机制，所以也不需要通过key去查找内容
+    if (isValidUrl(url)) {
+      const existingEntry = await kv.get<ShortUrl>(["url_by_content", url]);
+      if (existingEntry.value) {
+        const existingShortCode = existingEntry.value.key;
+        const entryCount = (await kv.get(["stats", "entry_count"])).value || 0;
+        return ctx.render({
+          msg: `🎉Save the link: https://${env.get("SITE_URL")!}/s/${existingShortCode}`,
+          entry_count: entryCount,
+        });
+      }
+    }
+
     const short_code = generateId();
-    entry_count++;
+    const entryCount = (await kv.get(["stats", "entry_count"])).value || 0;
 
     const entry: ShortUrl = {
       key: short_code,
@@ -52,21 +70,29 @@ export const handler: Handlers = {
       create_time: new Date().toISOString(),
     };
 
+    // 如果是url的话，还要给url本身加上一个索引，方便下次插入时查找是否存在重复
+    if (isValidUrl(url)) {
+      await kv.set(["url_by_content", url], entry);
+    }
     await kv.set(['url', short_code], entry);
-    await kv.set(['stats','entry_count'], entry_count);
+    await kv.set(["stats", "entry_count"], entryCount + 1);
     creation_token -= 1;
 
-    return ctx.render(
-      {'msg': `🎉Save the link: https://${env.get('SITE_URL')!}/s/${short_code}`}
-    );
+    return ctx.render({
+      msg: `🎉Save the link: https://${env.get("SITE_URL")!}/s/${short_code}`,
+      entry_count: entryCount + 1,
+    });
   },
-  GET(_req, ctx) {
-    return ctx.render();
+  async GET(_req, ctx) {
+    // 每次页面加载时从数据库获取最新的 entry_count
+    const entryCount = (await kv.get(["stats", "entry_count"])).value || 0;
+    return ctx.render({ entry_count: entryCount, creation_token });
   }
 };
 
 
 export default function Home(props: PageProps) {
+  const { entry_count, msg } = props.data; // 要从props获得entry_count实现动态更新前端
   return (
     <>
     <ContentMeta />
