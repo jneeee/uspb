@@ -7,8 +7,8 @@ import * as $_app from "./routes/_app.tsx";
 import * as $index from "./routes/index.tsx";
 import * as $list from "./routes/list.tsx";
 import * as $s_short_code_ from "./routes/s/[short_code].tsx";
-
-import { type Manifest } from "$fresh/server.ts";
+import * as $DeleteButton from "./islands/DeleteButton.tsx";
+import type { Manifest } from "$fresh/server.ts";
 
 const manifest = {
   routes: {
@@ -18,7 +18,9 @@ const manifest = {
     "./routes/list.tsx": $list,
     "./routes/s/[short_code].tsx": $s_short_code_,
   },
-  islands: {},
+  islands: {
+    "./islands/DeleteButton.tsx": $DeleteButton,
+  },
   baseUrl: import.meta.url,
 } satisfies Manifest;
 
