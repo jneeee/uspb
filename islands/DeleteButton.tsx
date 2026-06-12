@@ -19,7 +19,7 @@ export default function DeleteButton({ shortCode }: { shortCode: string }) {
     }
   
     return (
-      <button class="btn btn-danger" onClick={handleDelete}>
+      <button type="button" class="btn btn-danger" onClick={handleDelete}>
         Delete
       </button>
     );

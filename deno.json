@@ -3,7 +3,9 @@
   "tasks": {
     "start": "deno run -A --unstable-cron --unstable-kv --watch=static/,routes/ dev.ts",
     "build": "deno run -A dev.ts build",
-    "preview": "deno run -A main.ts"
+    "preview": "deno run -A main.ts",
+    "test": "deno test -A",
+    "lint": "deno lint"
   },
   "compilerOptions": { "jsx": "react-jsx", "jsxImportSource": "preact" },
   "imports": {
@@ -11,6 +13,7 @@
     "$fresh/": "https://deno.land/x/fresh@1.7.3/",
     "preact": "https://esm.sh/preact@10.26.4",
     "preact/": "https://esm.sh/preact@10.26.4/",
+    "preact/jsx-runtime": "https://esm.sh/preact@10.26.4/jsx-runtime",
     "preact-render-to-string": "https://esm.sh/*preact-render-to-string@6.5.13",
     "@preact/signals": "https://esm.sh/*@preact/signals@2.0.2",
     "@preact/signals-core": "https://esm.sh/*@preact/signals-core@1.8.0",
