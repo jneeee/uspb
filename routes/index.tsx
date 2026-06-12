@@ -12,7 +12,7 @@ import Footer from "@/components/Footer.tsx";
 import {kv, ShortUrl} from "@/utils/database.ts";
 
 
-let entry_count = (await kv.get(['stats','entry_count'])).value || 0;
+const _entry_count = (await kv.get(['stats','entry_count'])).value || 0;
 let creation_token = 10;
 
 Deno.cron("Creation token", "0 * * * *", () => {
@@ -92,7 +92,7 @@ export const handler: Handlers = {
 
 
 export default function Home(props: PageProps) {
-  const { entry_count, msg } = props.data; // 要从props获得entry_count实现动态更新前端
+  const { entry_count, _msg } = props.data; // 要从props获得entry_count实现动态更新前端
   return (
     <>
     <ContentMeta />
